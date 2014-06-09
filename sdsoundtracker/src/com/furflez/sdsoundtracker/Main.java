@@ -1,7 +1,9 @@
 package com.furflez.sdsoundtracker;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +28,6 @@ public class Main extends Activity {
 		buttonGunhido.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,
 				android.R.drawable.ic_media_play);
 
-
 		buttonGunhido.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -43,30 +44,25 @@ public class Main extends Activity {
 					gunhido.start();
 					buttonGunhido.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 							0, android.R.drawable.ic_media_pause);
+
 				}
 
 			}
 		});
+		
+		gunhido.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+			public void onCompletion(MediaPlayer player) {
+			   player.release();    
+			   buttonGunhido.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+						0, android.R.drawable.ic_media_play);
+			}});
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		// getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
-	class PlayVerification extends Thread {
-
-		public void run() {
-
-			while (gunhido.isPlaying()) {
-
-			}
-
-			buttonGunhido.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,
-					android.R.drawable.ic_media_play);
-
-		}
-	}
+	
 }
